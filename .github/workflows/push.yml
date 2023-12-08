@@ -1,11 +1,14 @@
 name: Push gem
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Ruby"]
+    types: ["completed"]
     branches: ["main"]
 
 jobs:
-  build:
+  push:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
