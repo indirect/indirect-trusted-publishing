@@ -32,6 +32,6 @@ jobs:
         git config --global user.name "$(git log -1 --pretty=format:'%an')"
         git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY"
     - name: Release
-      run: rake release
+      run: bundle exec rake release
       env:
         GEM_HOST: "https://oidc-api-token.rubygems.org"
