@@ -1,0 +1,32 @@
+name: Push gem
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    # - uses: rubygems/push@v1
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - uses: rubygems/configure-rubygems-credentials@segiddins/support-trusted-publishers
+        with:
+          gem-server: "https://oidc-api-token.rubygems.org"
+          trusted-publisher: true
+      - name: Set remote URL
+        run: |
+          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
+          git config --global user.name "$(git log -1 --pretty=format:'%an')"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY"
+    - name: Release
+        run: rake release
+        env:
+          GEM_HOST: "https://oidc-api-token.rubygems.org"
