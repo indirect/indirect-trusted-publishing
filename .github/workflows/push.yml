@@ -25,6 +25,7 @@ jobs:
       with:
         gem-server: "https://oidc-api-token.rubygems.org"
         trusted-publisher: true
+        audience: oidc-api-token.rubygems.org
     - name: Set remote URL
       run: |
         git config --global user.email "$(git log -1 --pretty=format:'%ae')"
