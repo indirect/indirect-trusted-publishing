@@ -34,4 +34,4 @@ jobs:
     - name: Release
       run: bundle exec rake release
       env:
-        GEM_HOST: "https://oidc-api-token.rubygems.org"
+        RUBYGEMS_HOST: "https://oidc-api-token.rubygems.org"
